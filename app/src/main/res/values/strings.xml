@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Mero Grocery App</string>
+    <string name="logo_description">Logo Description</string>
+    <string name="welcome_to">Welcome To</string>
+    <string name="make_your_transaction">Make your transactions more secured and trust worthy.</string>
+    <string name="all_rights_preserved">All rights are reserved © Mero Pasal 2024</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="enter_your_password">Enter your Password/PIN</string>
+    <string name="enter_the_otp_code">Enter the OTP code</string>
+    <string name="we_have_sent_6_digit_otp">We have send a 6 digit OTP code on your phone number.</string>
+    <string name="login_text">Login</string>
+    <string name="did_not_get_the_code">Didn’t get the code? </string>
+    <string name="resend">Resend</string>
+    <string name="recover_your_account">Recover your account? </string>
+    <string name="click_here"> Click here</string>
+    <string name="know_your_password">Know your password! </string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password_pin">Password</string>
+    <string name="otp_description">Make sure this number can receive a SMS as we will send a 6 digit OTP code for verification.</string>
+    <string name="generate_otp">Generate OTP</string>
+    <string name="send">Send</string>
+    <string name="save">Save</string>
+    <string name="enter_a_new_password">Enter a new password</string>
+    <string name="re_enter_your_password">Re-enter your password</string>
+    <string name="hash_password">********</string>
+    <string name="enter_four_digit">Enter a four digit PIN</string>
+    <string name="re_enter_your_pin">Re-enter the PIN</string>
+    <string name="hash_pin">****</string>
+</resources>
