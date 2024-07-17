@@ -1,47 +1,43 @@
     package org.meropasal.merogrocery;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.meropasal.merogrocery.model.Mock;
-import org.meropasal.merogrocery.services.LoginPost;
-import org.meropasal.merogrocery.services.RetrofitClient;
-
+import org.meropasal.merogrocery.model.UserModel;
+import org.meropasal.merogrocery.retrofit.RetrofitService;
+import org.meropasal.merogrocery.service.Login;
+import org.meropasal.merogrocery.utility.TokenManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.http.Body;
 
     public class LoginActivity extends AppCompatActivity {
-
     TextView tvClickHere,tvAppName;
     Button btnLogin;
-    String id;
     EditText etPhoneNumber, etPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        String token = TokenManager.getToken(getApplicationContext());
+        if(token != null){
+            Intent tokenIntent = new Intent(this, MainActivity.class);
+            startActivity(tokenIntent);
+        }
 
         tvClickHere = findViewById(R.id.tvClickHere);
-        Intent clickHereIntent = new Intent(this, GenerateOTP.class);
 
-        tvClickHere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(clickHereIntent);
-            }
-        });
+        Intent clickHereIntent = new Intent(this, GenerateOTP.class);
+        Intent loginIntent = new Intent(this, MainActivity.class);
+
+        tvClickHere.setOnClickListener(v -> startActivity(clickHereIntent));
 
         tvAppName = findViewById(R.id.tvAppName);
 
@@ -51,39 +47,71 @@ import retrofit2.http.Body;
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
 
-        String stPhoneNumber = etPhoneNumber.getText().toString();
-        String stPassword = etPassword.getText().toString();
-        id = stPhoneNumber;
-        LoginPost loginPost = RetrofitClient.getClient().create(LoginPost.class);
-        Call<Body> call = loginPost.getToken(id);
+        btnLogin.setOnClickListener(v -> {
+            String stPhoneNumber = etPhoneNumber.getText().toString();
+            String stPassword = etPassword.getText().toString();
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Mock mock = new Mock("id");
+            Login loginService = RetrofitService.getService(LoginActivity.this).create(Login.class);
+            UserModel userModel = new UserModel(null, null, stPhoneNumber, stPassword, null, null, null, null);
+
+            Call<UserModel> call = loginService.postLogin(userModel);
+            call.enqueue(new Callback<UserModel>() {
+                @Override
+                public void onResponse(@NonNull Call<UserModel> call, @NonNull Response<UserModel> response) {
+                    if (response.isSuccessful()) {
+                        UserModel userModelResponse = response.body();
+                        if (userModelResponse != null) {
+                            try {
+                                String token = userModelResponse.getToken();
+
+                                TokenManager.saveToken(getApplicationContext(), token);
 
 
-                call.enqueue(new Callback<Body>() {
-                    @Override
-                    public void onResponse(Call<Body> call, Response<Body> response) {
-                        Log.i("apiresponse",response.toString());
-                        if(response.isSuccessful()){
-
-//                            Log.e("apiresponse",response.toString());
-                            Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                                startActivity(loginIntent);
+                            }catch (Exception e){
+                                Toast.makeText(LoginActivity.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Log.e("apiRes", "Response body is null");
+                            // Handle null response body
                         }
+                    } else {
+                        Log.e("apiRes", "Login request unsuccessful: " + response.message());
+                        // Handle unsuccessful login
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<Body> call, Throwable throwable) {
-                        Log.e("apiresponse",throwable.getMessage());
-                        Toast.makeText(LoginActivity.this, "Failed to connect to server.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
+                @Override
+                public void onFailure(@NonNull Call<UserModel> call, @NonNull Throwable t) {
+                    Log.e("apiRes", "Login request failed", t);
+                }
+            });
         });
     }
-}
+
+        @Override
+        protected void onStart() {
+            super.onStart();
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+        }
+
+        @Override
+        protected void onPause() {
+            super.onPause();
+        }
+
+        @Override
+        protected void onStop() {
+            super.onStop();
+        }
+
+        @Override
+        protected void onDestroy() {
+            super.onDestroy();
+        }
+
+    }

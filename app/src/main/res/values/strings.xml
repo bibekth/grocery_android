@@ -16,14 +16,23 @@
     <string name="know_your_password">Know your password! </string>
     <string name="phone_number">Phone Number</string>
     <string name="password_pin">Password</string>
+    <string name="setPassword">Set a password</string>
     <string name="otp_description">Make sure this number can receive a SMS as we will send a 6 digit OTP code for verification.</string>
     <string name="generate_otp">Generate OTP</string>
     <string name="send">Send</string>
     <string name="save">Save</string>
+    <string name="pin">PIN</string>
     <string name="enter_a_new_password">Enter a new password</string>
     <string name="re_enter_your_password">Re-enter your password</string>
     <string name="hash_password">********</string>
+    <string name="confirmPassword">Confirm Password</string>
     <string name="enter_four_digit">Enter a four digit PIN</string>
     <string name="re_enter_your_pin">Re-enter the PIN</string>
     <string name="hash_pin">****</string>
+    <string name="profilePicture">Profile Picture</string>
+    <string name="notificationIcon">Notification Icon</string>
+    <string name="logInYourGroceryAppAccount">Log in your Mero Grocery App Account</string>
+    <string name="logout">Logout</string>
+    <string name="searchIcon">Search Icon</string>
+    <string name="search">Search</string>
 </resources>

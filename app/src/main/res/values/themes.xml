@@ -2,7 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MeroGrocery" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<!--        <item name="colorPrimary">#0000FF</item> &lt;!&ndash; Replace with your desired primary color &ndash;&gt;-->
+        <item name="colorPrimaryDark">#FF723CB6</item> <!-- Replace with your desired dark primary color -->
+<!--        <item name="colorAccent">#FF4081</item>-->
     </style>
 
     <style name="Theme.MeroGrocery" parent="Base.Theme.MeroGrocery" />

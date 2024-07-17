@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="theme_blue">#FF0047AB</color>
+    <color name="credit">#FFE36868</color>
+    <color name="cash">#FF56B438</color>
 </resources>
