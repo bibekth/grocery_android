@@ -1,5 +1,7 @@
 package org.meropasal.merogrocery.model;
 
+import java.util.List;
+
 public class UserModel {
 
     private String status, token, phone_number, password, otp_code, message, pin;
@@ -18,6 +20,15 @@ public class UserModel {
         this.pin = pin;
         this.user = user;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public String getPin() {
         return pin;
     }
@@ -73,58 +84,37 @@ public class UserModel {
     public void setMessage(String message) {
         this.message = message;
     }
-    //    public String getOtp_code() {
-//        return otp_code;
-//    }
-//
-//    public void setOtp_code(String otp_code) {
-//        this.otp_code = otp_code;
-//    }
-//
-//    public String getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(String status) {
-//        this.status = status;
-//    }
-//
-//    public String getToken() {
-//        return token;
-//    }
-//
-//    public void setToken(String token) {
-//        this.token = token;
-//    }
-//
-//    public String getPhone_number() {
-//        return phone_number;
-//    }
-//
-//    public void setPhone_number(String phone_number) {
-//        this.phone_number = phone_number;
-//    }
-//
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
 
     public static class User{
-        private String id, name, email, role, phone_number;
+        private String id, name, email, role, phone_number, amount, assigned_name;
 
         public User() {
         }
 
-        public User(String id, String name, String email, String role, String phone_number) {
+        public User(String id, String name, String email, String role, String phone_number, String amount, String assigned_name) {
             this.id = id;
             this.name = name;
             this.email = email;
             this.role = role;
             this.phone_number = phone_number;
+            this.amount = amount;
+            this.assigned_name = assigned_name;
+        }
+
+        public String getAssigned_name() {
+            return assigned_name;
+        }
+
+        public void setAssigned_name(String assigned_name) {
+            this.assigned_name = assigned_name;
+        }
+
+        public String getAmount() {
+            return amount;
+        }
+
+        public void setAmount(String amount) {
+            this.amount = amount;
         }
 
         public String getId() {

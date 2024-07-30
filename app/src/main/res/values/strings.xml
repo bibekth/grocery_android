@@ -35,4 +35,27 @@
     <string name="logout">Logout</string>
     <string name="searchIcon">Search Icon</string>
     <string name="search">Search</string>
+    <string name="add_customer">Add Customer</string>
+    <string name="customers">Customers</string>
+    <string name="my_phone_number">9809101575</string>
+    <string name="add_icon">Add Icon</string>
+    <string name="payment">Payment</string>
+    <string name="customer">Customer</string>
+    <string name="enter_customer_name">Enter Customer Name</string>
+    <string name="enter_the_phone_number">Enter Phone Number</string>
+    <string name="amount">Amount</string>
+    <string name="todo">TODO</string>
+    <string name="set_price">Set Price</string>
+    <string name="make_a_payment">Make a Payment</string>
+    <string name="product_price_list">Product Prices List</string>
+    <string name="update">Update</string>
+    <string name="add_product">Add Product</string>
+    <string name="product_name">Product Name</string>
+    <string name="variant_name">Variant Name</string>
+    <string name="quantity">Quantity</string>
+    <string name="price">Price</string>
+    <string name="product">Product</string>
+    <string name="currency">Rs.</string>
+    <string name="did_not_find_customer">Did not find the customer?</string>
+    <string name="register_here">Register here!</string>
 </resources>

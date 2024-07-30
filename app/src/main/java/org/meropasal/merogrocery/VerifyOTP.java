@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class VerifyOTP extends AppCompatActivity {
     TextView tvAppName;
     EditText otp1, otp2, otp3, otp4, otp5, otp6;
-    String stOTP1, stOTP2, stOTP3, stOTP4, stOTP5, stOTP6, stOTP, stPhoneNumber, token;
+    String stOTP1, stOTP2, stOTP3, stOTP4, stOTP5, stOTP6, stOTP, stPhoneNumber, token, role;
     Button btnSend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,10 +160,12 @@ public class VerifyOTP extends AppCompatActivity {
                     if(response.isSuccessful()){
                         UserModel userModelResponse = response.body();
                         if(userModelResponse != null){
+                            UserModel.User user = userModelResponse.getUser();
                             try{
                                 token = userModelResponse.getToken();
-                                Log.e("monkey",token);
+                                role = user.getRole();
                                 TokenManager.saveToken(getApplicationContext(), token);
+                                TokenManager.saveRole(getApplicationContext(),role);
                                 startActivity(sendOTP);
                             }catch (Exception e){
 

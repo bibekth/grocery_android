@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitService {
 
     private static Retrofit retrofit = null;
-    private static final String base_url = "https://monkey.fieldma.com/";
+    private static final String base_url = "https://meropasal.techenfield.com/";
 
     private RetrofitService() {}
 

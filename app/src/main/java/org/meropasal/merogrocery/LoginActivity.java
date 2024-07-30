@@ -13,25 +13,35 @@ import android.widget.Toast;
 import org.meropasal.merogrocery.model.UserModel;
 import org.meropasal.merogrocery.retrofit.RetrofitService;
 import org.meropasal.merogrocery.service.Login;
+import org.meropasal.merogrocery.utility.DeviceIDManager;
 import org.meropasal.merogrocery.utility.TokenManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.google.firebase.FirebaseApp;
 
     public class LoginActivity extends AppCompatActivity {
     TextView tvClickHere,tvAppName;
     Button btnLogin;
     EditText etPhoneNumber, etPassword;
+    String fcm_id, device_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        FirebaseApp.initializeApp(this);
+
         String token = TokenManager.getToken(getApplicationContext());
         if(token != null){
             Intent tokenIntent = new Intent(this, MainActivity.class);
             startActivity(tokenIntent);
         }
 
+        device_id = DeviceIDManager.getDeviceId(getApplicationContext());
+        fcm_id = DeviceIDManager.getFCMToken();
+        if(fcm_id == null){
+            fcm_id = "12345678";
+        }
         tvClickHere = findViewById(R.id.tvClickHere);
 
         Intent clickHereIntent = new Intent(this, GenerateOTP.class);
@@ -54,18 +64,19 @@ import retrofit2.Response;
             Login loginService = RetrofitService.getService(LoginActivity.this).create(Login.class);
             UserModel userModel = new UserModel(null, null, stPhoneNumber, stPassword, null, null, null, null);
 
-            Call<UserModel> call = loginService.postLogin(userModel);
+            Call<UserModel> call = loginService.postLogin(userModel, device_id, fcm_id);
             call.enqueue(new Callback<UserModel>() {
                 @Override
                 public void onResponse(@NonNull Call<UserModel> call, @NonNull Response<UserModel> response) {
                     if (response.isSuccessful()) {
                         UserModel userModelResponse = response.body();
                         if (userModelResponse != null) {
+                            UserModel.User user = userModelResponse.getUser();
                             try {
                                 String token = userModelResponse.getToken();
-
+                                String role = user.getRole();
                                 TokenManager.saveToken(getApplicationContext(), token);
-
+                                TokenManager.saveRole(getApplicationContext(),role);
 
                                 startActivity(loginIntent);
                             }catch (Exception e){

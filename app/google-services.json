@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "902940575822",
+    "project_id": "mero-pasal-3051c",
+    "storage_bucket": "mero-pasal-3051c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902940575822:android:f946d5517f1979ba8c5b1f",
+        "android_client_info": {
+          "package_name": "org.meropasal.merogrocery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLQUHPvMmiVPqiMkUQ5jAE3-RzUGUf1og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

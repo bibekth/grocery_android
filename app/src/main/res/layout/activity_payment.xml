@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#FF723CB6"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentActivity">
+    <RelativeLayout
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/logo"
+                android:contentDescription="@string/profilePicture"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.523" />
+
+            <ImageView
+                android:id="@+id/ivNotification"
+                android:layout_width="20dp"
+                android:layout_height="24dp"
+                android:background="@drawable/notification"
+                android:contentDescription="@string/notificationIcon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:text="@string/make_a_payment"
+            android:textSize="20sp"
+            android:padding="16dp"
+            android:textColor="#444444"
+            android:background="#88888888"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"/>
+
+        <EditText
+            android:inputType="phone"
+            android:autofillHints="phone"
+            android:id="@+id/etCustomer"
+            android:hint="@string/enter_the_phone_number"
+            android:textColorHint="#444444"
+            android:textColor="#444444"
+            android:textSize="16sp"
+            android:layout_marginTop="36dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/input_shape"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_margin="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/etAmount"
+                android:hint="@string/amount"
+                android:textColor="#444444"
+                android:textSize="16sp"
+                android:inputType="number"
+                android:autofillHints="phone"
+                android:background="@drawable/input_shape"
+                android:textColorHint="#444444"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"/>
+<!--            <LinearLayout-->
+<!--                android:background="@drawable/input_shape"-->
+<!--                android:id="@+id/llDatePicker"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="match_parent">-->
+<!--                <ImageView-->
+<!--                    android:background="@color/black"-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="36dp"-->
+<!--                    android:contentDescription="@string/todo" />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/tvDate"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:textColor="#444444"-->
+<!--                    android:paddingStart="4dp"-->
+<!--                    android:paddingEnd="4dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="48dp"/>-->
+
+<!--            </LinearLayout>-->
+        </LinearLayout>
+
+<!--        <DatePicker-->
+<!--            android:visibility="gone"-->
+<!--            android:id="@+id/dpPaymentDate"-->
+<!--            android:layout_marginStart="24dp"-->
+<!--            android:layout_marginEnd="24dp"-->
+<!--            android:calendarTextColor="@color/black"-->
+<!--            android:background="#FF723CB6"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="24dp"
+            android:background="@drawable/submit_btn_shape"
+            android:text="@string/save"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>
