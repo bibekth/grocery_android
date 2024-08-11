@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class ProductPriceAdapter extends RecyclerView.Adapter<ProductPriceAdapter.ProductPriceHolder> {
     Context context;
     ArrayList<ProductPriceModel.Message.ProductPrices> arrProductPrices;
+    private ProductPriceAdapter.OnItemClickListener onItemClickListener;
 
     public ProductPriceAdapter() {
     }
@@ -42,12 +43,20 @@ public class ProductPriceAdapter extends RecyclerView.Adapter<ProductPriceAdapte
         holder.tvVariant.setText(arrProductPrices.get(position).getVariant().getVariant_code());
         holder.tvQuantity.setText(arrProductPrices.get(position).getQuantity());
         holder.tvRate.setText(arrProductPrices.get(position).getPrice());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(Integer.parseInt(arrProductPrices.get(position).getId()), arrProductPrices.get(position).getProduct().getName(), arrProductPrices.get(position).getVariant().getVariant_code(), arrProductPrices.get(position).getQuantity());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return arrProductPrices.size();
     }
+
+
 
     public static class ProductPriceHolder extends RecyclerView.ViewHolder {
         TextView tvProductName, tvQuantity, tvVariant, tvRate, tvSerialNumber;
@@ -61,5 +70,13 @@ public class ProductPriceAdapter extends RecyclerView.Adapter<ProductPriceAdapte
             ivEdit = itemView.findViewById(R.id.ivUpdateProductIcon);
             tvSerialNumber = itemView.findViewById(R.id.tvSerialNumber);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int productID, String name, String variant, String quantity);
+    }
+
+    public void setOnItemClickListener(ProductPriceAdapter.OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 }

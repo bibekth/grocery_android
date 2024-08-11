@@ -283,7 +283,7 @@ public class ProductPriceModel {
     }
 
     public static class RequiredParam{
-        String product_id, variant_id, quantity, price;
+        String product_id, variant_id, quantity, price, status;
 
         public RequiredParam() {
         }
@@ -293,6 +293,14 @@ public class ProductPriceModel {
             this.variant_id = variant_id;
             this.quantity = quantity;
             this.price = price;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
 
         public String getProduct_id() {

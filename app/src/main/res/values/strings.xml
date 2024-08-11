@@ -47,6 +47,8 @@
     <string name="todo">TODO</string>
     <string name="set_price">Set Price</string>
     <string name="make_a_payment">Make a Payment</string>
+    <string name="make_a_transaction">Make a Transaction</string>
+    <string name="make_a_draft">Make a Draft</string>
     <string name="product_price_list">Product Prices List</string>
     <string name="update">Update</string>
     <string name="add_product">Add Product</string>
@@ -58,4 +60,13 @@
     <string name="currency">Rs.</string>
     <string name="did_not_find_customer">Did not find the customer?</string>
     <string name="register_here">Register here!</string>
+    <string name="add_new_product_or_variant">Add New Product or Variant?</string>
+    <string name="variant">Variant</string>
+    <string name="variant_code">Variant Code</string>
+    <string name="what_do_you_want_to_add">What do you want to add?</string>
+    <string name="transaction">Transaction</string>
+    <string name="draft">Draft</string>
+    <string name="one">1</string>
+    <string name="qty">Qty</string>
+    <string name="loading">Loading</string>
 </resources>

@@ -46,6 +46,7 @@ public class AddCustomerActivity extends AppCompatActivity {
     TextView tvRegister;
     AutoCompleteTextView phoneNumberAutoComplete;
     RecyclerView rcAddCustomer;
+    TopFragment topFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +75,7 @@ public class AddCustomerActivity extends AppCompatActivity {
 
         token = TokenManager.getToken(getApplicationContext());
         bearerToken = "Bearer " + token;
-        Log.v("testtt","helllo");
+
         searchFilter();
         RecyclerToggle();
         btnSaveClick();

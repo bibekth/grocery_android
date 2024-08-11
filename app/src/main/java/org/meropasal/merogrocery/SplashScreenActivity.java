@@ -23,6 +23,6 @@ TextView tvAppName;
             public void run() {
                 startActivity(splashIntent);
             }
-        }, 2000);
+        }, 100);
     }
 }

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.meropasal.merogrocery.R;
+import org.meropasal.merogrocery.model.AllCustomerModel;
 import org.meropasal.merogrocery.model.UserModel;
 import org.meropasal.merogrocery.model.VendorCustomerRecyclerModel;
 
@@ -22,10 +23,12 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
 
     Context context;
     ArrayList<VendorCustomerRecyclerModel.Message.Customer> arrCustomer;
+    ArrayList<VendorCustomerRecyclerModel.Message.Customer> filterCustomer;
     private OnItemClickListener onItemClickListener;
     public VendorCustomerAdapter(Context context, ArrayList<VendorCustomerRecyclerModel.Message.Customer> arrCustomer) {
         this.context = context;
         this.arrCustomer = arrCustomer;
+        this.filterCustomer = new ArrayList<>(arrCustomer);
     }
 
     @NonNull
@@ -37,29 +40,52 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
 
     @Override
     public void onBindViewHolder(@NonNull VendorCustomerAdapter.VendorCustomerHolder holder, int position) {
-        holder.profileImage.setImageResource(R.drawable.logo);
-        if(arrCustomer.get(position).getAssigned_name() == null){
-            holder.name.setText(R.string.app_name);
-        }else{
-            holder.name.setText(arrCustomer.get(position).getAssigned_name());
-        }
-        if(arrCustomer.get(position).getPhone_number() != null) {
-            holder.phoneNumber.setText(arrCustomer.get(position).getPhone_number());
-        }else{
-            holder.phoneNumber.setText(R.string.my_phone_number);
-        }
-        holder.totalCredit.setText(arrCustomer.get(position).getAmount());
 
-        holder.itemView.setOnClickListener(v -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(arrCustomer.get(position).getId());
+//        VendorCustomerRecyclerModel.Message.Customer currentUser = filterCustomer.get(position);
+        holder.profileImage.setImageResource(R.drawable.logo);
+//        if(currentUser == null) {
+            if (arrCustomer.get(position).getAssigned_name() == null) {
+                holder.name.setText(R.string.app_name);
+            } else {
+                holder.name.setText(arrCustomer.get(position).getAssigned_name());
             }
-        });
+            if (arrCustomer.get(position).getPhone_number() != null) {
+                holder.phoneNumber.setText(arrCustomer.get(position).getPhone_number());
+            } else {
+                holder.phoneNumber.setText(R.string.my_phone_number);
+            }
+            holder.totalCredit.setText(arrCustomer.get(position).getAmount());
+
+            holder.itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(arrCustomer.get(position).getId());
+                }
+            });
+//        }else {
+//            holder.name.setText(currentUser.getAssigned_name());
+//            holder.phoneNumber.setText(currentUser.getPhone_number());
+//            holder.totalCredit.setText(currentUser.getAmount());
+//        }
     }
 
     @Override
     public int getItemCount() {
         return arrCustomer.size();
+    }
+
+    public void filter(String texts) {
+        filterCustomer.clear();
+        texts = texts.toLowerCase();
+        for (VendorCustomerRecyclerModel.Message.Customer user : arrCustomer) {
+            String userName = user.getName() != null ? user.getName().toLowerCase() : "";
+            String phoneNumber = user.getPhone_number() != null ? user.getPhone_number() : "";
+            if (userName.contains(texts) || phoneNumber.contains(texts)) {
+                filterCustomer.add(user);
+            } else {
+                Log.d("Filter", "Didn't match");
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public static class VendorCustomerHolder extends RecyclerView.ViewHolder {

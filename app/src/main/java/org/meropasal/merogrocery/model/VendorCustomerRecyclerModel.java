@@ -1,5 +1,10 @@
 package org.meropasal.merogrocery.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -60,7 +65,7 @@ public class VendorCustomerRecyclerModel {
             this.vendor = vendor;
         }
 
-        public static class Customer {
+        public static class Customer implements Parcelable {
             private Integer id;
             private String name, phone_number, address, email, status, assigned_name, amount;
 
@@ -77,6 +82,33 @@ public class VendorCustomerRecyclerModel {
                 this.assigned_name = assigned_name;
                 this.amount = amount;
             }
+
+            protected Customer(Parcel in) {
+                if (in.readByte() == 0) {
+                    id = null;
+                } else {
+                    id = in.readInt();
+                }
+                name = in.readString();
+                phone_number = in.readString();
+                address = in.readString();
+                email = in.readString();
+                status = in.readString();
+                assigned_name = in.readString();
+                amount = in.readString();
+            }
+
+            public static final Creator<Customer> CREATOR = new Creator<Customer>() {
+                @Override
+                public Customer createFromParcel(Parcel in) {
+                    return new Customer(in);
+                }
+
+                @Override
+                public Customer[] newArray(int size) {
+                    return new Customer[size];
+                }
+            };
 
             public String getAssigned_name() {
                 return assigned_name;
@@ -140,6 +172,28 @@ public class VendorCustomerRecyclerModel {
 
             public void setStatus(String status) {
                 this.status = status;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(@NonNull Parcel dest, int flags) {
+                if (id == null) {
+                    dest.writeByte((byte) 0);
+                } else {
+                    dest.writeByte((byte) 1);
+                    dest.writeInt(id);
+                }
+                dest.writeString(name);
+                dest.writeString(phone_number);
+                dest.writeString(address);
+                dest.writeString(email);
+                dest.writeString(status);
+                dest.writeString(assigned_name);
+                dest.writeString(amount);
             }
         }
 
