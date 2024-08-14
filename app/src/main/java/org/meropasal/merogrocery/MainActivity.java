@@ -46,13 +46,23 @@ public class MainActivity extends AppCompatActivity {
     View llCustomerPayment, llAddCustomer, llAddPayment, llSetPrice, llMakeTransaction, llMakeDraft, llProgressBar;
     ArrayList<VendorCustomerRecyclerModel.Message.Customer> arrUserModel;
     ProgressBar progressBar;
+
+    Handler handler = new Handler();
+    private boolean DoubleBackPressed = false;
+    private final Runnable resetDoubleBackPressed = new Runnable() {
+        @Override
+        public void run() {
+            DoubleBackPressed = false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         findView();
-
+//        displayProgressBar();
         token = TokenManager.getToken(getApplicationContext());
         bearerToken = "Bearer " + token;
         role = TokenManager.getRole(getApplicationContext());
@@ -75,14 +85,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
             hideAddIcon();
         }
-        vendorCustomerAdapter = new VendorCustomerAdapter(getApplicationContext(), arrUserModel);
-        rcCustomerVendorList.setLayoutManager(new LinearLayoutManager(this));
-        rcCustomerVendorList.setAdapter(vendorCustomerAdapter);
-        vendorCustomerAdapter.setOnItemClickListener(customerId -> {
-            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-            intent.putExtra("CUSTOMER_ID", customerId);
-            startActivity(intent);
-        });
+
     }
     protected void filterCustomerVendor(){
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         if(Objects.equals(role, "Vendor")){
             makeTransaction();
         }
+        filterCustomerVendor();
         hideSection();
     }
     @Override
@@ -125,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (handler != null) {
+            handler.removeCallbacks(resetDoubleBackPressed);
+        }
     }
     private void fetchCustomers(){
         GetCustomer getCustomer = RetrofitService.getService(MainActivity.this).create(GetCustomer.class);
@@ -145,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                             if(customer != null){
                                 arrUserModel.clear();
                                 arrUserModel.addAll(customer);
+                                initialAdapter();
                                 vendorCustomerAdapter.notifyDataSetChanged();
                             }
                         }
@@ -247,4 +255,27 @@ public class MainActivity extends AppCompatActivity {
                 },
                 3000);
     }
+    private void initialAdapter(){
+        vendorCustomerAdapter = new VendorCustomerAdapter(getApplicationContext(), arrUserModel);
+        rcCustomerVendorList.setLayoutManager(new LinearLayoutManager(this));
+        rcCustomerVendorList.setAdapter(vendorCustomerAdapter);
+        vendorCustomerAdapter.setOnItemClickListener(customerId -> {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            intent.putExtra("CUSTOMER_ID", customerId);
+            startActivity(intent);
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        if (DoubleBackPressed) {
+            super.onBackPressed();
+            finishAffinity();
+            return;
+        }
+
+        this.DoubleBackPressed = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        handler.postDelayed(resetDoubleBackPressed, 2000);
+    }
+
 }

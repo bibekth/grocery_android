@@ -40,49 +40,38 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
 
     @Override
     public void onBindViewHolder(@NonNull VendorCustomerAdapter.VendorCustomerHolder holder, int position) {
+        VendorCustomerRecyclerModel.Message.Customer currentUser = filterCustomer.get(position);
+//        holder.profileImage.setImageResource(R.drawable.logo);
+        holder.name.setText(currentUser.getAssigned_name());
+        holder.phoneNumber.setText(currentUser.getPhone_number());
+        holder.totalCredit.setText(currentUser.getAmount());
 
-//        VendorCustomerRecyclerModel.Message.Customer currentUser = filterCustomer.get(position);
-        holder.profileImage.setImageResource(R.drawable.logo);
-//        if(currentUser == null) {
-            if (arrCustomer.get(position).getAssigned_name() == null) {
-                holder.name.setText(R.string.app_name);
-            } else {
-                holder.name.setText(arrCustomer.get(position).getAssigned_name());
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(arrCustomer.get(position).getId());
             }
-            if (arrCustomer.get(position).getPhone_number() != null) {
-                holder.phoneNumber.setText(arrCustomer.get(position).getPhone_number());
-            } else {
-                holder.phoneNumber.setText(R.string.my_phone_number);
-            }
-            holder.totalCredit.setText(arrCustomer.get(position).getAmount());
-
-            holder.itemView.setOnClickListener(v -> {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(arrCustomer.get(position).getId());
-                }
-            });
-//        }else {
-//            holder.name.setText(currentUser.getAssigned_name());
-//            holder.phoneNumber.setText(currentUser.getPhone_number());
-//            holder.totalCredit.setText(currentUser.getAmount());
-//        }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return arrCustomer.size();
+        Log.v("testtt", String.valueOf(filterCustomer.size()));
+        return filterCustomer.size();
     }
 
     public void filter(String texts) {
         filterCustomer.clear();
         texts = texts.toLowerCase();
         for (VendorCustomerRecyclerModel.Message.Customer user : arrCustomer) {
-            String userName = user.getName() != null ? user.getName().toLowerCase() : "";
+            String userName = user.getAssigned_name()    != null ? user.getAssigned_name().toLowerCase() : "";
             String phoneNumber = user.getPhone_number() != null ? user.getPhone_number() : "";
             if (userName.contains(texts) || phoneNumber.contains(texts)) {
                 filterCustomer.add(user);
             } else {
-                Log.d("Filter", "Didn't match");
+//                VendorCustomerRecyclerModel.Message.Customer newUser = new VendorCustomerRecyclerModel.Message.Customer();
+//                newUser.setAssigned_name("No match found");
+//                newUser.setPhone_number("");
+//                filterCustomer.add(newUser);
             }
         }
         notifyDataSetChanged();
@@ -104,7 +93,6 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
         void onItemClick(Integer customerId);
     }
 
-    // Method to set the click listener
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
