@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class ProductPriceAdapter extends RecyclerView.Adapter<ProductPriceAdapter.ProductPriceHolder> {
     Context context;
     ArrayList<ProductPriceModel.Message.ProductPrices> arrProductPrices;
+    ArrayList<ProductPriceModel.Message.ProductPrices> filteredPrices;
     private ProductPriceAdapter.OnItemClickListener onItemClickListener;
 
     public ProductPriceAdapter() {
@@ -26,6 +27,12 @@ public class ProductPriceAdapter extends RecyclerView.Adapter<ProductPriceAdapte
     public ProductPriceAdapter(Context context, ArrayList<ProductPriceModel.Message.ProductPrices> arrProductPrices) {
         this.context = context;
         this.arrProductPrices = arrProductPrices;
+    }
+
+    public ProductPriceAdapter(Context context, ArrayList<ProductPriceModel.Message.ProductPrices> arrProductPrices, String a) {
+        this.context = context;
+        this.arrProductPrices = arrProductPrices;
+        this.filteredPrices = new ArrayList<>(arrProductPrices);
     }
 
     @NonNull

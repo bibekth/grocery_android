@@ -6,4 +6,5 @@
     <color name="theme_purple">#FF723CB6</color>
     <color name="credit">#FFE36868</color>
     <color name="cash">#FF56B438</color>
+    <color name="input_hint">#FF868686</color>
 </resources>

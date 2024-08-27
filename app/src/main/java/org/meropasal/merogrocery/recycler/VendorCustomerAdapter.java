@@ -55,7 +55,6 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
 
     @Override
     public int getItemCount() {
-        Log.v("testtt", String.valueOf(filterCustomer.size()));
         return filterCustomer.size();
     }
 

@@ -67,6 +67,12 @@ public class ProductPriceModel {
             public ProductPrices() {
             }
 
+            public ProductPrices(String product_id, String quantity, String price) {
+                this.product_id = product_id;
+                this.quantity = quantity;
+                this.price = price;
+            }
+
             public ProductPrices(String id, String vendor_id, String product_id, String variant_id, String quantity, String price, Product product, Variant variant, Vendor vendor) {
                 this.id = id;
                 this.vendor_id = vendor_id;
@@ -333,6 +339,43 @@ public class ProductPriceModel {
 
         public void setPrice(String price) {
             this.price = price;
+        }
+    }
+
+    public static class postProductPrice{
+        String product_price_id, quantity, total_amount;
+
+        public postProductPrice() {
+        }
+
+        public postProductPrice(String product_price_id, String quantity, String total_amount) {
+            this.product_price_id = product_price_id;
+            this.quantity = quantity;
+            this.total_amount = total_amount;
+        }
+
+        public String getProduct_price_id() {
+            return product_price_id;
+        }
+
+        public void setProduct_price_id(String product_price_id) {
+            this.product_price_id = product_price_id;
+        }
+
+        public String getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(String quantity) {
+            this.quantity = quantity;
+        }
+
+        public String getTotal_amount() {
+            return total_amount;
+        }
+
+        public void setTotal_amount(String total_amount) {
+            this.total_amount = total_amount;
         }
     }
 }

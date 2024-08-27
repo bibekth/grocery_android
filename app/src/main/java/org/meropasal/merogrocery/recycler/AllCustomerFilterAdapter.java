@@ -29,13 +29,11 @@ public class AllCustomerFilterAdapter extends RecyclerView.Adapter<AllCustomerFi
     private OnItemClickListener onItemClickListener;
     public AllCustomerFilterAdapter() {
     }
-
     public AllCustomerFilterAdapter(Context context, List<AllCustomerModel.Data> orinalList) {
         this.context = context;
         this.originalList = orinalList;
         this.filteredList = new ArrayList<>(orinalList);
     }
-
     @NonNull
     @Override
     public AllCustomerFilterAdapter.CustomerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -68,14 +66,10 @@ public class AllCustomerFilterAdapter extends RecyclerView.Adapter<AllCustomerFi
             String userName = user.getName() != null ? user.getName().toLowerCase() : "";
             String phoneNumber = user.getPhone_number() != null ? user.getPhone_number() : "";
             if (userName.contains(texts) || phoneNumber.contains(texts)) {
-                Log.v("Filter","Entered");
                 filteredList.add(user);
-                Log.v("Filter", "Added user: " + userName + ", " + phoneNumber);
             } else {
-                Log.d("Filter", "Didn't match");
             }
         }
-        Log.v("Filter",String.valueOf(filteredList.size()));
         notifyDataSetChanged();
     }
 

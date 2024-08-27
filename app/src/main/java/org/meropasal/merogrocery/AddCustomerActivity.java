@@ -2,13 +2,19 @@ package org.meropasal.merogrocery;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -43,10 +49,12 @@ public class AddCustomerActivity extends AppCompatActivity {
     String token, bearerToken, stPhoneNumber, stAmount, stCustomerName, customerID;
     ArrayList<AllCustomerModel.Data> customers;
     AllCustomerFilterAdapter adapter;
+    ArrayList<String> contactList;
     TextView tvRegister;
     AutoCompleteTextView phoneNumberAutoComplete;
-    RecyclerView rcAddCustomer;
+    RecyclerView rcAddCustomer, rcContactList;
     TopFragment topFragment;
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -211,7 +219,8 @@ public class AddCustomerActivity extends AppCompatActivity {
         EditText etAddAssignedName = dialogView.findViewById(R.id.etAssignedName);
         EditText etAddAmount = dialogView.findViewById(R.id.etAmount);
         Button btnAddSave = dialogView.findViewById(R.id.btnSave);
-
+        ImageView ivContactIcon = dialogView.findViewById(R.id.ivContactIcon);
+        rcContactList = dialogView.findViewById(R.id.rcContactList);
         AlertDialog dialog = builder.create();
 
         btnAddSave.setOnClickListener(new View.OnClickListener() {
@@ -244,7 +253,56 @@ public class AddCustomerActivity extends AppCompatActivity {
                 });
             }
         });
+        ivContactIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestContactPermission();
+
+//                recyclerContactList();
+
+            }
+        });
 
         dialog.show();
+    }
+    private void requestContactPermission(){
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.READ_CONTACTS},
+                    PERMISSIONS_REQUEST_READ_CONTACTS);
+        } else {
+//            loadContacts();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                loadContacts();
+            } else {
+                Toast.makeText(this, "Permission required to access contacts", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+//    private void loadContacts() {
+//        ContentResolver contentResolver = getContentResolver();
+//        Cursor cursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,null,null,null);
+//
+//        if (cursor != null) {
+//            while (cursor.moveToNext()) {
+//                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+//                @SuppressLint("Range") String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//            }
+//            cursor.close();
+//        }
+//    }
+    private void recyclerContactList(){
+        customers = new ArrayList<>();
+        rcContactList.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new AllCustomerFilterAdapter(getApplicationContext(),customers);
+        rcAddCustomer.setAdapter(adapter);
     }
 }

@@ -326,6 +326,7 @@
                     <CheckBox
                         android:id="@+id/cbProduct"
                         android:text="@string/product"
+                        android:buttonTint="@color/black"
                         android:background="@drawable/input_shape"
                         android:textColor="@color/black"
                         android:layout_weight="1"
@@ -335,6 +336,7 @@
                     <CheckBox
                         android:id="@+id/cbVariant"
                         android:text="@string/variant"
+                        android:buttonTint="@color/black"
                         android:background="@drawable/input_shape"
                         android:textColor="@color/black"
                         android:layout_weight="1"
