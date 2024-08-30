@@ -70,7 +70,6 @@ public class PaymentActivity extends AppCompatActivity {
                 customerID = String.valueOf(customerId);
             }
         });
-
         savePayment();
     }
 
@@ -92,24 +91,27 @@ public class PaymentActivity extends AppCompatActivity {
                             UserModel userModelResponse = response.body();
                             assert userModelResponse != null;
                                if(Objects.equals(userModelResponse.getStatus(), "Success")){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(PaymentActivity.this);
-                                builder.setMessage("Payment Successful")
-                                        .setCancelable(false)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-
-                                AlertDialog alert = builder.create();
-                                alert.show();
+//                                AlertDialog.Builder builder = new AlertDialog.Builder(PaymentActivity.this);
+//                                builder.setMessage("Payment Successful")
+//                                        .setCancelable(false)
+//                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                            public void onClick(DialogInterface dialog, int id) {
+//                                                dialog.dismiss();
+//                                            }
+//                                        });
+//
+//                                AlertDialog alert = builder.create();
+//                                alert.show();
+                                   Toast.makeText(PaymentActivity.this, "Payment success.", Toast.LENGTH_SHORT).show();
+                                   etAmount.setText("");
+                                   etPhoneNumber.setText("");
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<UserModel> call, Throwable throwable) {
-
+                        Toast.makeText(PaymentActivity.this, "Payment failed", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

@@ -57,6 +57,22 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvName"
+            android:text="@string/cash"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcCustomerTransaction"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 </LinearLayout>

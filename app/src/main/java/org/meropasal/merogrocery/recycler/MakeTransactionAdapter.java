@@ -44,7 +44,6 @@ public class MakeTransactionAdapter extends RecyclerView.Adapter<MakeTransaction
         int price = Integer.parseInt(currentProduct.getQuantity()) * Integer.parseInt(currentProduct.getPrice());
         holder.tvProduct.setText(productWithVariant);
         holder.tvQuantity.setText(currentProduct.getQuantity());
-//        holder.tvVariant.setText(currentProduct.getVariant().getVariant_code());
         holder.tvPrice.setText(String.valueOf(price));
 
         holder.itemView.setOnClickListener(v->{

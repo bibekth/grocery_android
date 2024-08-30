@@ -36,17 +36,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tvAddCustomer, tvAddPayment;
+    TextView tvAddCustomer, tvAddPayment, tvTotalCredit, tvTodayTotal, tvCreditText, tvTodayText;
     EditText etSearch;
     Intent intentAddCustomer, intentAddPayment, intentSetPrice;
     RecyclerView rcCustomerVendorList;
     ImageView ivProfilePic, ivAddIcon, ivPayReceive;
-    String token, bearerToken, role;
+    String token, bearerToken, role, stTodayText, stTotalText;
     VendorCustomerAdapter vendorCustomerAdapter;
     View llCustomerPayment, llAddCustomer, llAddPayment, llSetPrice, llMakeTransaction, llMakeDraft, llProgressBar;
     ArrayList<VendorCustomerRecyclerModel.Message.Customer> arrUserModel;
     ProgressBar progressBar;
-
     Handler handler = new Handler();
     private boolean DoubleBackPressed = false;
     private final Runnable resetDoubleBackPressed = new Runnable() {
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findView();
-//        displayProgressBar();
+
         token = TokenManager.getToken(getApplicationContext());
         bearerToken = "Bearer " + token;
         role = TokenManager.getRole(getApplicationContext());
@@ -79,13 +78,18 @@ public class MainActivity extends AppCompatActivity {
 
         if(Objects.equals(role, "Vendor")){
             ivPayReceive.setImageResource(R.drawable.to_receive_icon);
-            fetchCustomers();
             toggleCustomerPayment();
             clickCustomer();
+            stTodayText = "Today's Sales";
+            stTotalText = "To Receive";
         }else{
+            ivPayReceive.setImageResource(R.drawable.to_receive_icon);
+            stTodayText = "Credit Purchase";
+            stTotalText = "To Pay";
             hideAddIcon();
         }
-
+        tvTodayText.setText(stTodayText);
+        tvCreditText.setText(stTotalText);
     }
     protected void filterCustomerVendor(){
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -114,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if(Objects.equals(role, "Vendor")){
             makeTransaction();
+            fetchCustomers();
         }
         filterCustomerVendor();
         hideSection();
@@ -148,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
                         VendorCustomerRecyclerModel.Message message = vendorCustomerRecyclerModelResponse.getMessage();
                         if(message == null){
                         }else{
+                            tvTotalCredit.setText(message.getCreditAmount());
+                            tvTodayTotal.setText(message.getTodayTotal());
                             List<VendorCustomerRecyclerModel.Message.Customer> customer = message.getCustomer();
                             if(customer != null){
                                 arrUserModel.clear();
@@ -226,6 +233,10 @@ public class MainActivity extends AppCompatActivity {
         llSetPrice = findViewById(R.id.llSetPrice);
         progressBar = findViewById(R.id.progressBar);
         llProgressBar = findViewById(R.id.llProgressBar);
+        tvTodayTotal = findViewById(R.id.tvTodayTotal);
+        tvTotalCredit = findViewById(R.id.tvTotalCredit);
+        tvCreditText = findViewById(R.id.tvCreditText);
+        tvTodayText = findViewById(R.id.tvTodayText);
     }
     private void makeTransaction() {
         llMakeTransaction.setOnClickListener(new View.OnClickListener() {
@@ -259,10 +270,14 @@ public class MainActivity extends AppCompatActivity {
         vendorCustomerAdapter = new VendorCustomerAdapter(getApplicationContext(), arrUserModel);
         rcCustomerVendorList.setLayoutManager(new LinearLayoutManager(this));
         rcCustomerVendorList.setAdapter(vendorCustomerAdapter);
-        vendorCustomerAdapter.setOnItemClickListener(customerId -> {
-            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-            intent.putExtra("CUSTOMER_ID", customerId);
-            startActivity(intent);
+        vendorCustomerAdapter.setOnItemClickListener(new VendorCustomerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Integer customerId, String name) {
+                Intent intent = new Intent(MainActivity.this, CustomerTransactionActivity.class);
+                intent.putExtra("CUSTOMER_ID", String.valueOf(customerId));
+                intent.putExtra("customerName", name);
+                startActivity(intent);
+            }
         });
     }
     @Override
@@ -277,5 +292,4 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
         handler.postDelayed(resetDoubleBackPressed, 2000);
     }
-
 }

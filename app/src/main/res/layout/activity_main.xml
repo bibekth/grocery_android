@@ -98,11 +98,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="4dp"
-                            android:text="RS:"
+                            android:text="@string/currency"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/tvTotalCredit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="12000"
@@ -112,6 +113,7 @@
 
 
                     <TextView
+                        android:id="@+id/tvCreditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="To receive"
@@ -154,13 +156,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
-                            android:text="RS:"
+                            android:text="@string/currency"
                             android:textSize="16sp"
                             android:textColor="@color/black"
                             android:layout_marginEnd="4dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <TextView
+                            android:id="@+id/tvTodayTotal"
                             android:text="12000"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -170,6 +173,7 @@
 
 
                     <TextView
+                        android:id="@+id/tvTodayText"
                         android:textColor="#555555"
                         android:text="Sales"
                         android:textSize="14sp"

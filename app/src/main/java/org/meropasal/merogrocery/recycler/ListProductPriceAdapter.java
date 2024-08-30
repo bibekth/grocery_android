@@ -44,6 +44,7 @@ public class ListProductPriceAdapter extends RecyclerView.Adapter<ListProductPri
         holder.tvQuantity.setText(currentProduct.getQuantity());
         holder.tvVariant.setText(currentProduct.getVariant().getVariant_code());
         holder.tvPrice.setText(currentProduct.getPrice());
+//        int total_amount = Integer.parseInt(currentProduct.getPrice()) * Integer.parseInt(currentProduct.getQuantity());
 
         holder.itemView.setOnClickListener(v->{
             if(onItemClickListener != null){

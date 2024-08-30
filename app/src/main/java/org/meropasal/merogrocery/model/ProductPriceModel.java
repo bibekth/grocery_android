@@ -59,7 +59,7 @@ public class ProductPriceModel {
         }
 
         public static class ProductPrices{
-            String id, vendor_id, product_id, variant_id, quantity, price;
+            String id, vendor_id, product_id, variant_id, quantity, price, total_amount, product_price_id;
             Product product;
             Variant variant;
             Vendor vendor;
@@ -67,10 +67,18 @@ public class ProductPriceModel {
             public ProductPrices() {
             }
 
-            public ProductPrices(String product_id, String quantity, String price) {
+            public ProductPrices(String id, String vendor_id, String product_id, String variant_id, String quantity, String price, String total_amount, String product_price_id, Product product, Variant variant, Vendor vendor) {
+                this.id = id;
+                this.vendor_id = vendor_id;
                 this.product_id = product_id;
+                this.variant_id = variant_id;
                 this.quantity = quantity;
                 this.price = price;
+                this.total_amount = total_amount;
+                this.product_price_id = product_price_id;
+                this.product = product;
+                this.variant = variant;
+                this.vendor = vendor;
             }
 
             public ProductPrices(String id, String vendor_id, String product_id, String variant_id, String quantity, String price, Product product, Variant variant, Vendor vendor) {
@@ -83,6 +91,22 @@ public class ProductPriceModel {
                 this.product = product;
                 this.variant = variant;
                 this.vendor = vendor;
+            }
+
+            public String getTotal_amount() {
+                return total_amount;
+            }
+
+            public void setTotal_amount(String total_amount) {
+                this.total_amount = total_amount;
+            }
+
+            public String getProduct_price_id() {
+                return product_price_id;
+            }
+
+            public void setProduct_price_id(String product_price_id) {
+                this.product_price_id = product_price_id;
             }
 
             public String getId() {

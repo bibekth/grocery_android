@@ -40,12 +40,35 @@ public class VendorCustomerRecyclerModel {
     public static class Message{
         private List<Customer> customer;
         private List<Vendor> vendor;
+        String creditAmount, todayTotal;
         public Message() {
         }
 
         public Message(List<Customer> customer, List<Vendor> vendor) {
             this.customer = customer;
             this.vendor = vendor;
+        }
+
+        public Message(List<Customer> customer, String creditAmount, String todayTotal) {
+            this.customer = customer;
+            this.creditAmount = creditAmount;
+            this.todayTotal = todayTotal;
+        }
+
+        public String getCreditAmount() {
+            return creditAmount;
+        }
+
+        public void setCreditAmount(String creditAmount) {
+            this.creditAmount = creditAmount;
+        }
+
+        public String getTodayTotal() {
+            return todayTotal;
+        }
+
+        public void setTodayTotal(String todayTotal) {
+            this.todayTotal = todayTotal;
         }
 
         @SerializedName("customer")
@@ -67,7 +90,9 @@ public class VendorCustomerRecyclerModel {
 
         public static class Customer implements Parcelable {
             private Integer id;
-            private String name, phone_number, address, email, status, assigned_name, amount;
+            private String name, phone_number, address, email, status, assigned_name;
+            @SerializedName("credit_amount")
+            String amount;
 
             public Customer() {
             }

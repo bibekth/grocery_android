@@ -17,8 +17,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import org.meropasal.merogrocery.model.ProductPriceModel;
+import org.meropasal.merogrocery.model.TransactionModel;
 import org.meropasal.merogrocery.model.VendorCustomerRecyclerModel;
 import org.meropasal.merogrocery.recycler.FilterCustomerForPaymentAdapter;
 import org.meropasal.merogrocery.recycler.ListProductPriceAdapter;
@@ -26,6 +30,7 @@ import org.meropasal.merogrocery.recycler.MakeTransactionAdapter;
 import org.meropasal.merogrocery.recycler.ProductPriceAdapter;
 import org.meropasal.merogrocery.retrofit.RetrofitService;
 import org.meropasal.merogrocery.service.Product;
+import org.meropasal.merogrocery.service.Transaction;
 import org.meropasal.merogrocery.utility.TokenManager;
 
 import java.util.ArrayList;
@@ -38,7 +43,10 @@ import retrofit2.Response;
 
 public class TransactionActivity extends AppCompatActivity {
     EditText etCustomer;
+    String payment_type = "";
+
     String token, bearerToken, customerID;
+    Integer assignedCustomerID;
     ImageView ivAdd;
     RecyclerView rcCustomer, rcProductPrice, rcBillList;
     ArrayList<ProductPriceModel.Message.ProductPrices> arrProductPrices;
@@ -99,6 +107,7 @@ public class TransactionActivity extends AppCompatActivity {
         final String[] DialogQuantity = new String[1];
         final String[] DialogAllTogether = new String[1];
         final String[] DialogPrice = new String[1];
+        final String[] DialogTotalAmount = new String[1];
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(TransactionActivity.this);
         LayoutInflater alertInflater = getLayoutInflater();
         View alertDialogView = alertInflater.inflate(R.layout.add_item_in_purchase_dialog,null);
@@ -126,6 +135,7 @@ public class TransactionActivity extends AppCompatActivity {
                 DialogPrice[0] = price;
                 DialogProduct[0] = name;
                 DialogVariantCode[0] = variant;
+//                DialogTotalAmount[0] = total_amount;
                 DialogAllTogether[0] = DialogProduct[0] + " (" + DialogQuantity[0] + " " + DialogVariantCode[0] + ") " ;
                 etProductDialog.setText(DialogAllTogether[0]);
 
@@ -200,8 +210,10 @@ public class TransactionActivity extends AppCompatActivity {
                 stAmountDialog = etAmountDialog.getText().toString();
 
                 arrPostProductPrices.add(new ProductPriceModel.postProductPrice(stProductDialog,stAmountDialog,"0"));
-//                Log.v("testtt","productID => " + productID +", name => " + name +", variant => "+variant+", quantity => "+quantity+", price => "+price );
-                billList.add(new ProductPriceModel.Message.ProductPrices(DialogProductID[0],DialogQuantity[0], DialogProduct[0], DialogVariantCode[0], etAmountDialog.getText().toString(), DialogPrice[0], null, null, null));
+                Log.v("testtt",DialogQuantity[0] +", " + DialogPrice[0]);
+                int intTotal_amount = Integer.parseInt(stAmountDialog) * Integer.parseInt(DialogPrice[0]);
+                String st_total_amount = String.valueOf(intTotal_amount);
+                billList.add(new ProductPriceModel.Message.ProductPrices(DialogProductID[0],DialogQuantity[0], DialogProduct[0], DialogVariantCode[0], etAmountDialog.getText().toString(), DialogPrice[0], st_total_amount, DialogProductID[0],null, null, null));
                 billListAdapter = new MakeTransactionAdapter(getApplicationContext(), billList);
                 rcBillList.setLayoutManager(new LinearLayoutManager(TransactionActivity.this));
                 rcBillList.setAdapter(billListAdapter);
@@ -254,6 +266,7 @@ public class TransactionActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new FilterCustomerForPaymentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int customerId, String phoneNumber, String name) {
+                assignedCustomerID = customerId;
                 String setName = name + " (" + phoneNumber + ")";
                 etCustomer.setText(setName);
                 rcCustomer.setVisibility(View.GONE);
@@ -301,7 +314,39 @@ public class TransactionActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("testtt",billList.toString());
+                if(cbCredit.isChecked()){
+                    payment_type = "credit";
+                }else if(cbCash.isChecked()){
+                    payment_type = "cash";
+                }else if(!cbCash.isChecked() && !cbCredit.isChecked()){
+                    Toast.makeText(TransactionActivity.this, "Please check one payment type.", Toast.LENGTH_SHORT).show();
+                }
+
+                Gson gson = new Gson();
+                String jsonString = gson.toJson(billList);
+                String finalJson = "{\"customer_id\":" + customerID + ",\"payment_type\":\"" + payment_type + "\",\"bill\":" + jsonString + "}";
+                Log.d("Final JSON", finalJson);
+                TransactionModel transactionModel = new TransactionModel(customerID, payment_type, billList);
+
+                Transaction transactionService = RetrofitService.getService(TransactionActivity.this).create(Transaction.class);
+                Call<TransactionModel> call = transactionService.postTransaction(bearerToken, transactionModel);
+                call.enqueue(new Callback<TransactionModel>() {
+                    @Override
+                    public void onResponse(Call<TransactionModel> call, Response<TransactionModel> response) {
+                        if(response.isSuccessful()){
+                            String status = response.body().getStatus();
+                            if(Objects.equals(status, "Success")){
+                                Toast.makeText(TransactionActivity.this, "Transaction saved successfully", Toast.LENGTH_SHORT).show();
+                                billList.clear();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TransactionModel> call, Throwable throwable) {
+                        billList.clear();
+                    }
+                });
             }
         });
     }

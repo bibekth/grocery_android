@@ -48,7 +48,7 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
 
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(arrCustomer.get(position).getId());
+                onItemClickListener.onItemClick(filterCustomer.get(position).getId(), filterCustomer.get(position).getAssigned_name());
             }
         });
     }
@@ -89,7 +89,7 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Integer customerId);
+        void onItemClick(Integer customerId, String name);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
