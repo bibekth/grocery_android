@@ -1,8 +1,6 @@
 package org.meropasal.merogrocery.recycler;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.meropasal.merogrocery.R;
 import org.meropasal.merogrocery.model.ProductVariantModel;
-import org.meropasal.merogrocery.model.VendorCustomerRecyclerModel;
 
 import java.util.ArrayList;
 

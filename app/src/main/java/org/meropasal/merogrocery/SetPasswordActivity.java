@@ -4,14 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.graphics.Typeface;
 
 import org.meropasal.merogrocery.model.UserModel;
 import org.meropasal.merogrocery.retrofit.RetrofitService;
@@ -58,19 +55,16 @@ public class SetPasswordActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<UserModel> call, @NonNull Response<UserModel> response) {
                         if(response.isSuccessful()){
-                            Log.e("monkey","success");
                             UserModel userModelResponse = response.body();
                             if(userModelResponse != null){
                                 startActivity(saveIntent);
                             }else{
-                                Log.e("monkey","is null");
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<UserModel> call, @NonNull Throwable throwable) {
-                        Log.e("monkey","unsuccessful");
                     }
                 });
             }

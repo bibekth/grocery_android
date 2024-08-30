@@ -1,7 +1,6 @@
 package org.meropasal.merogrocery.recycler;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.meropasal.merogrocery.R;
-import org.meropasal.merogrocery.model.AllCustomerModel;
-import org.meropasal.merogrocery.model.UserModel;
 import org.meropasal.merogrocery.model.VendorCustomerRecyclerModel;
 
 import java.util.ArrayList;
@@ -88,14 +85,9 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
                 if (userName.contains(texts) || phoneNumber.contains(texts)) {
                     filterCustomer.add(user);
                 } else {
-//                    VendorCustomerRecyclerModel.Message.Customer newUser = new VendorCustomerRecyclerModel.Message.Customer();
-//                    newUser.setAssigned_name("No match found");
-//                    newUser.setPhone_number("");
-//                    filterCustomer.add(newUser);
                 }
             }
         }else{
-            Log.v("testtt","filter");
             filterVendor.clear();
             texts = texts.toLowerCase();
             for (VendorCustomerRecyclerModel.Message.Vendor user : arrVendor) {
@@ -104,10 +96,6 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
                 if (userName.contains(texts) || phoneNumber.contains(texts)) {
                     filterVendor.add(user);
                 } else {
-//                    VendorCustomerRecyclerModel.Message.Vendor newUser = new VendorCustomerRecyclerModel.Message.Vendor();
-//                    newUser.setAssigned_name("No match found");
-//                    newUser.setContact("");
-//                    filterVendor.add(newUser);
                 }
             }
         }

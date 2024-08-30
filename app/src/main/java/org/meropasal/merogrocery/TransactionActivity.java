@@ -6,12 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 
 import org.meropasal.merogrocery.model.ProductPriceModel;
 import org.meropasal.merogrocery.model.TransactionModel;
@@ -28,7 +25,6 @@ import org.meropasal.merogrocery.model.VendorCustomerRecyclerModel;
 import org.meropasal.merogrocery.recycler.FilterCustomerForPaymentAdapter;
 import org.meropasal.merogrocery.recycler.ListProductPriceAdapter;
 import org.meropasal.merogrocery.recycler.MakeTransactionAdapter;
-import org.meropasal.merogrocery.recycler.ProductPriceAdapter;
 import org.meropasal.merogrocery.retrofit.RetrofitService;
 import org.meropasal.merogrocery.service.Product;
 import org.meropasal.merogrocery.service.Transaction;
@@ -136,7 +132,6 @@ public class TransactionActivity extends AppCompatActivity {
                 DialogPrice[0] = price;
                 DialogProduct[0] = name;
                 DialogVariantCode[0] = variant;
-//                DialogTotalAmount[0] = total_amount;
                 DialogAllTogether[0] = DialogProduct[0] + " (" + DialogQuantity[0] + " " + DialogVariantCode[0] + ") " ;
                 etProductDialog.setText(DialogAllTogether[0]);
 
@@ -211,7 +206,6 @@ public class TransactionActivity extends AppCompatActivity {
                 stAmountDialog = etAmountDialog.getText().toString();
 
                 arrPostProductPrices.add(new ProductPriceModel.postProductPrice(stProductDialog,stAmountDialog,"0"));
-                Log.v("testtt",DialogQuantity[0] +", " + DialogPrice[0]);
                 int intTotal_amount = Integer.parseInt(stAmountDialog) * Integer.parseInt(DialogPrice[0]);
                 String st_total_amount = String.valueOf(intTotal_amount);
                 billList.add(new ProductPriceModel.Message.ProductPrices(DialogProductID[0],DialogQuantity[0], DialogProduct[0], DialogVariantCode[0], etAmountDialog.getText().toString(), DialogPrice[0], st_total_amount, DialogProductID[0],null, null, null));
@@ -322,13 +316,7 @@ public class TransactionActivity extends AppCompatActivity {
                 }else if(!cbCash.isChecked() && !cbCredit.isChecked()){
                     Toast.makeText(TransactionActivity.this, "Please check one payment type.", Toast.LENGTH_SHORT).show();
                 }
-
-                Gson gson = new Gson();
-                String jsonString = gson.toJson(billList);
-//                String finalJson = "{\"customer_id\":" + customerID + ",\"payment_type\":\"" + payment_type + "\",\"bill\":" + jsonString + "}";
-//                Log.d("Final JSON", finalJson);
                 TransactionModel transactionModel = new TransactionModel(customerID, payment_type, billList);
-
                 Transaction transactionService = RetrofitService.getService(TransactionActivity.this).create(Transaction.class);
                 Call<TransactionModel> call = transactionService.postTransaction(bearerToken, transactionModel);
                 call.enqueue(new Callback<TransactionModel>() {
@@ -347,8 +335,6 @@ public class TransactionActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<TransactionModel> call, Throwable throwable) {
-//                        billList.clear();
-                        Log.e("error",throwable.getMessage());
                     }
                 });
             }

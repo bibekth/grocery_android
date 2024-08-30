@@ -1,6 +1,5 @@
 package org.meropasal.merogrocery;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,9 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,7 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.meropasal.merogrocery.model.UserModel;
 import org.meropasal.merogrocery.model.VendorCustomerRecyclerModel;
 import org.meropasal.merogrocery.recycler.VendorCustomerAdapter;
 import org.meropasal.merogrocery.retrofit.RetrofitService;

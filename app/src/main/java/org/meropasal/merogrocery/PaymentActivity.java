@@ -4,30 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.meropasal.merogrocery.model.UserModel;
 import org.meropasal.merogrocery.model.VendorCustomerRecyclerModel;
-import org.meropasal.merogrocery.recycler.AllCustomerFilterAdapter;
 import org.meropasal.merogrocery.recycler.FilterCustomerForPaymentAdapter;
 import org.meropasal.merogrocery.retrofit.RetrofitService;
 import org.meropasal.merogrocery.service.Payment;
 import org.meropasal.merogrocery.utility.TokenManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 import retrofit2.Call;

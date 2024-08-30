@@ -1,11 +1,6 @@
 package org.meropasal.merogrocery.service;
 
-import com.google.gson.JsonArray;
-
-import org.meropasal.merogrocery.model.ProductPriceModel;
 import org.meropasal.merogrocery.model.TransactionModel;
-
-import java.lang.reflect.Array;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

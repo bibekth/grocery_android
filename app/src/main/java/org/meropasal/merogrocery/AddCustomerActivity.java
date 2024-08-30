@@ -9,15 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -176,7 +171,6 @@ public class AddCustomerActivity extends AppCompatActivity {
 
                 AssignCustomer assignCustomer = RetrofitService.getService(AddCustomerActivity.this).create(AssignCustomer.class);
                 Call<UserModel.User> call = assignCustomer.assignCustomer(bearerToken, customerID, stCustomerName, stAmount);
-                Log.v("testtt",customerID);
                 call.enqueue(new Callback<UserModel.User>() {
                     @Override
                     public void onResponse(Call<UserModel.User> call, Response<UserModel.User> response) {
@@ -257,9 +251,6 @@ public class AddCustomerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 requestContactPermission();
-
-//                recyclerContactList();
-
             }
         });
 

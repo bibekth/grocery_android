@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.meropasal.merogrocery.model.AllCustomerModel;
 import org.meropasal.merogrocery.model.UserModel;
 import org.meropasal.merogrocery.retrofit.RetrofitService;
-import org.meropasal.merogrocery.service.GetAllCustomer;
 import org.meropasal.merogrocery.service.Logout;
 import org.meropasal.merogrocery.utility.TokenManager;
 

@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.graphics.Typeface;
-import android.widget.Toast;
 
 import org.meropasal.merogrocery.model.UserModel;
 import org.meropasal.merogrocery.retrofit.RetrofitService;

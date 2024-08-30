@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,9 +38,9 @@ import com.google.firebase.FirebaseApp;
 
         device_id = DeviceIDManager.getDeviceId(getApplicationContext());
         fcm_id = DeviceIDManager.getFCMToken();
-        if(fcm_id == null){
-            fcm_id = "12345678";
-        }
+//        if(fcm_id == null){
+//            fcm_id = "12345678";
+//        }
         tvClickHere = findViewById(R.id.tvClickHere);
 
         Intent clickHereIntent = new Intent(this, GenerateOTP.class);
@@ -83,18 +82,13 @@ import com.google.firebase.FirebaseApp;
                                 Toast.makeText(LoginActivity.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Log.e("apiRes", "Response body is null");
-                            // Handle null response body
                         }
                     } else {
-                        Log.e("apiRes", "Login request unsuccessful: " + response.message());
-                        // Handle unsuccessful login
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<UserModel> call, @NonNull Throwable t) {
-                    Log.e("apiRes", "Login request failed", t);
                 }
             });
         });

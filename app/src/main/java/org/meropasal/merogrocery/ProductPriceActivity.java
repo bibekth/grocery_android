@@ -68,7 +68,6 @@ public class ProductPriceActivity extends AppCompatActivity {
     }
 
     private void recyclerSection(){
-        // Recycler View Section
         rcProductPrice = findViewById(R.id.rcProductPrice);
         arrProductPrices = new ArrayList<>();
         productPriceAdapter = new ProductPriceAdapter(getApplicationContext(), arrProductPrices);

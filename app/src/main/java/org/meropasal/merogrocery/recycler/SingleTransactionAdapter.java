@@ -1,18 +1,15 @@
 package org.meropasal.merogrocery.recycler;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.meropasal.merogrocery.R;
-import org.meropasal.merogrocery.model.ProductPriceModel;
 import org.meropasal.merogrocery.model.TransactionModel;
 
 import java.util.ArrayList;
@@ -30,7 +27,6 @@ public class SingleTransactionAdapter extends RecyclerView.Adapter<SingleTransac
         this.context = context;
         this.originalList = originalList;
         this.filteredList = new ArrayList<>(originalList);
-        Log.v("testtt",String.valueOf(originalList.size()));
     }
 
     @NonNull

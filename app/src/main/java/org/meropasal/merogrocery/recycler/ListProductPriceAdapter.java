@@ -1,7 +1,6 @@
 package org.meropasal.merogrocery.recycler;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.meropasal.merogrocery.R;
-import org.meropasal.merogrocery.model.AllCustomerModel;
 import org.meropasal.merogrocery.model.ProductPriceModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListProductPriceAdapter extends RecyclerView.Adapter<ListProductPriceAdapter.ViewHolder> {
 
@@ -44,7 +41,6 @@ public class ListProductPriceAdapter extends RecyclerView.Adapter<ListProductPri
         holder.tvQuantity.setText(currentProduct.getQuantity());
         holder.tvVariant.setText(currentProduct.getVariant().getVariant_code());
         holder.tvPrice.setText(currentProduct.getPrice());
-//        int total_amount = Integer.parseInt(currentProduct.getPrice()) * Integer.parseInt(currentProduct.getQuantity());
 
         holder.itemView.setOnClickListener(v->{
             if(onItemClickListener != null){

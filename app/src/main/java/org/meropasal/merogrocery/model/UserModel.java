@@ -1,7 +1,5 @@
 package org.meropasal.merogrocery.model;
 
-import java.util.List;
-
 public class UserModel {
 
     private String status, token, phone_number, password, otp_code, message, pin;

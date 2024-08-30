@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import org.meropasal.merogrocery.model.TransactionModel;
 import org.meropasal.merogrocery.recycler.AllTransactionAdapter;
-import org.meropasal.merogrocery.recycler.SingleTransactionAdapter;
 import org.meropasal.merogrocery.retrofit.RetrofitService;
 import org.meropasal.merogrocery.service.Transaction;
 import org.meropasal.merogrocery.utility.TokenManager;

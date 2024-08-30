@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +39,6 @@ public class CustomerTransactionActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         customerID = intent.getStringExtra("CUSTOMER_ID");
-//        customerID = String.valueOf(customerID);
         customerName = intent.getStringExtra("customerName");
         tvName.setText(customerName);
 
@@ -56,16 +54,12 @@ public class CustomerTransactionActivity extends AppCompatActivity {
     private void fetchTransactions(){
         Transaction transactionService = RetrofitService.getService(this).create(Transaction.class);
         Call<TransactionModel> call = transactionService.getCustomerTransaction(bearerToken, customerID);
-        Log.v("testtt","before call");
         call.enqueue(new Callback<TransactionModel>() {
             @Override
             public void onResponse(Call<TransactionModel> call, Response<TransactionModel> response) {
-                Log.v("testtt","success");
-//                Toast.makeText(CustomerTransactionActivity.this, "Success", Toast.LENGTH_SHORT).show();
                 if(response.isSuccessful()){
                     TransactionModel responseTransaction = response.body();
                     ArrayList<TransactionModel.Message.Transaction> arrTransaction = responseTransaction.getMessage().getTransactionArrayList();
-                    Log.v("testtt", arrTransaction.toString());
                     if(arrTransaction != null){
                         transactionArrayList.clear();
                         transactionArrayList.addAll(arrTransaction);
@@ -84,7 +78,6 @@ public class CustomerTransactionActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TransactionModel> call, Throwable throwable) {
-                Log.v("testtt","failure");
                 Toast.makeText(CustomerTransactionActivity.this, "failed", Toast.LENGTH_SHORT).show();
             }
         });
