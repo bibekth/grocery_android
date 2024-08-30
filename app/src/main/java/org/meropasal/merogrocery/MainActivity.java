@@ -40,11 +40,12 @@ public class MainActivity extends AppCompatActivity {
     EditText etSearch;
     Intent intentAddCustomer, intentAddPayment, intentSetPrice;
     RecyclerView rcCustomerVendorList;
-    ImageView ivProfilePic, ivAddIcon, ivPayReceive;
+    ImageView ivProfilePic, ivAddIcon, ivPayReceive, ivNotification;
     String token, bearerToken, role, stTodayText, stTotalText;
     VendorCustomerAdapter vendorCustomerAdapter;
     View llCustomerPayment, llAddCustomer, llAddPayment, llSetPrice, llMakeTransaction, llMakeDraft, llProgressBar;
     ArrayList<VendorCustomerRecyclerModel.Message.Customer> arrUserModel;
+    ArrayList<VendorCustomerRecyclerModel.Message.Vendor> arrVendor;
     ProgressBar progressBar;
     Handler handler = new Handler();
     private boolean DoubleBackPressed = false;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         role = TokenManager.getRole(getApplicationContext());
 
         arrUserModel = new ArrayList<>();
+        arrVendor = new ArrayList<>();
 
         ivProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +121,10 @@ public class MainActivity extends AppCompatActivity {
         if(Objects.equals(role, "Vendor")){
             makeTransaction();
             fetchCustomers();
+        }else{
+            fetchVendors();
         }
+        ivNotificationClick();
         filterCustomerVendor();
         hideSection();
     }
@@ -160,6 +165,53 @@ public class MainActivity extends AppCompatActivity {
                                 arrUserModel.clear();
                                 arrUserModel.addAll(customer);
                                 initialAdapter();
+                                vendorCustomerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }else{
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VendorCustomerRecyclerModel> call, Throwable throwable) {
+
+            }
+        });
+    }
+    private void fetchVendors(){
+        GetCustomer getCustomer = RetrofitService.getService(MainActivity.this).create(GetCustomer.class);
+        Call<VendorCustomerRecyclerModel> call = getCustomer.getCustomers(bearerToken);
+
+        call.enqueue(new Callback<VendorCustomerRecyclerModel>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<VendorCustomerRecyclerModel> call, Response<VendorCustomerRecyclerModel> response) {
+                if(response.isSuccessful()){
+                    VendorCustomerRecyclerModel vendorCustomerRecyclerModelResponse = response.body();
+                    if(vendorCustomerRecyclerModelResponse == null){
+                    }else{
+                        VendorCustomerRecyclerModel.Message message = vendorCustomerRecyclerModelResponse.getMessage();
+                        if(message == null){
+                        }else{
+                            tvTotalCredit.setText(message.getCreditAmount());
+                            tvTodayTotal.setText(message.getTodayTotal());
+                            List<VendorCustomerRecyclerModel.Message.Vendor> customer = message.getVendor();
+                            if(customer != null){
+                                arrVendor.clear();
+                                arrVendor.addAll(customer);
+                                vendorCustomerAdapter = new VendorCustomerAdapter(getApplicationContext(), arrUserModel, arrVendor);
+                                rcCustomerVendorList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                rcCustomerVendorList.setAdapter(vendorCustomerAdapter);
+                                vendorCustomerAdapter.setOnItemClickListener(new VendorCustomerAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(Integer customerId, String name) {
+                                        Intent intent = new Intent(MainActivity.this, CustomerTransactionActivity.class);
+                                        intent.putExtra("CUSTOMER_ID", String.valueOf(customerId));
+                                        intent.putExtra("customerName", name);
+                                        startActivity(intent);
+                                    }
+                                });
                                 vendorCustomerAdapter.notifyDataSetChanged();
                             }
                         }
@@ -237,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
         tvTotalCredit = findViewById(R.id.tvTotalCredit);
         tvCreditText = findViewById(R.id.tvCreditText);
         tvTodayText = findViewById(R.id.tvTodayText);
+        ivNotification = findViewById(R.id.ivNotification);
     }
     private void makeTransaction() {
         llMakeTransaction.setOnClickListener(new View.OnClickListener() {
@@ -267,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
                 3000);
     }
     private void initialAdapter(){
-        vendorCustomerAdapter = new VendorCustomerAdapter(getApplicationContext(), arrUserModel);
+        vendorCustomerAdapter = new VendorCustomerAdapter(getApplicationContext(), arrUserModel, arrVendor);
         rcCustomerVendorList.setLayoutManager(new LinearLayoutManager(this));
         rcCustomerVendorList.setAdapter(vendorCustomerAdapter);
         vendorCustomerAdapter.setOnItemClickListener(new VendorCustomerAdapter.OnItemClickListener() {
@@ -277,6 +330,15 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("CUSTOMER_ID", String.valueOf(customerId));
                 intent.putExtra("customerName", name);
                 startActivity(intent);
+            }
+        });
+    }
+    private void ivNotificationClick(){
+        ivNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ivNotificationIntent = new Intent(MainActivity.this, AllTransactionActivity.class);
+                startActivity(ivNotificationIntent);
             }
         });
     }

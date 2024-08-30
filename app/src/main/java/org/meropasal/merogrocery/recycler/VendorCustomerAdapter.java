@@ -24,11 +24,15 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
     Context context;
     ArrayList<VendorCustomerRecyclerModel.Message.Customer> arrCustomer;
     ArrayList<VendorCustomerRecyclerModel.Message.Customer> filterCustomer;
+    ArrayList<VendorCustomerRecyclerModel.Message.Vendor> arrVendor;
+    ArrayList<VendorCustomerRecyclerModel.Message.Vendor> filterVendor;
     private OnItemClickListener onItemClickListener;
-    public VendorCustomerAdapter(Context context, ArrayList<VendorCustomerRecyclerModel.Message.Customer> arrCustomer) {
+    public VendorCustomerAdapter(Context context, ArrayList<VendorCustomerRecyclerModel.Message.Customer> arrCustomer, ArrayList<VendorCustomerRecyclerModel.Message.Vendor> arrVendor) {
         this.context = context;
         this.arrCustomer = arrCustomer;
+        this.arrVendor = arrVendor;
         this.filterCustomer = new ArrayList<>(arrCustomer);
+        this.filterVendor = new ArrayList<>(arrVendor);
     }
 
     @NonNull
@@ -40,39 +44,74 @@ public class VendorCustomerAdapter extends RecyclerView.Adapter<VendorCustomerAd
 
     @Override
     public void onBindViewHolder(@NonNull VendorCustomerAdapter.VendorCustomerHolder holder, int position) {
-        VendorCustomerRecyclerModel.Message.Customer currentUser = filterCustomer.get(position);
-//        holder.profileImage.setImageResource(R.drawable.logo);
-        holder.name.setText(currentUser.getAssigned_name());
-        holder.phoneNumber.setText(currentUser.getPhone_number());
-        holder.totalCredit.setText(currentUser.getAmount());
+        if(arrVendor.size() == 0){
+            VendorCustomerRecyclerModel.Message.Customer currentUser = filterCustomer.get(position);
+            holder.name.setText(currentUser.getAssigned_name());
+            holder.phoneNumber.setText(currentUser.getPhone_number());
+            holder.totalCredit.setText(currentUser.getAmount());
 
-        holder.itemView.setOnClickListener(v -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(filterCustomer.get(position).getId(), filterCustomer.get(position).getAssigned_name());
-            }
-        });
+            holder.itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(filterCustomer.get(position).getId(), filterCustomer.get(position).getAssigned_name());
+                }
+            });
+        }else if(arrCustomer.size() == 0){
+            VendorCustomerRecyclerModel.Message.Vendor currentUser = filterVendor.get(position);
+            holder.name.setText(currentUser.getFirm_name());
+            holder.phoneNumber.setText(currentUser.getContact());
+            holder.totalCredit.setText(currentUser.getCredit_amount());
+
+            holder.itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(filterVendor.get(position).getId(), filterVendor.get(position).getFirm_name());
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return filterCustomer.size();
+        if(arrVendor.size() == 0) {
+            return filterCustomer.size();
+        }else{
+            return filterVendor.size();
+        }
     }
 
     public void filter(String texts) {
-        filterCustomer.clear();
-        texts = texts.toLowerCase();
-        for (VendorCustomerRecyclerModel.Message.Customer user : arrCustomer) {
-            String userName = user.getAssigned_name()    != null ? user.getAssigned_name().toLowerCase() : "";
-            String phoneNumber = user.getPhone_number() != null ? user.getPhone_number() : "";
-            if (userName.contains(texts) || phoneNumber.contains(texts)) {
-                filterCustomer.add(user);
-            } else {
-//                VendorCustomerRecyclerModel.Message.Customer newUser = new VendorCustomerRecyclerModel.Message.Customer();
-//                newUser.setAssigned_name("No match found");
-//                newUser.setPhone_number("");
-//                filterCustomer.add(newUser);
+        if(arrVendor.size() == 0){
+            filterCustomer.clear();
+            texts = texts.toLowerCase();
+            for (VendorCustomerRecyclerModel.Message.Customer user : arrCustomer) {
+                String userName = user.getAssigned_name()    != null ? user.getAssigned_name().toLowerCase() : "";
+                String phoneNumber = user.getPhone_number() != null ? user.getPhone_number() : "";
+                if (userName.contains(texts) || phoneNumber.contains(texts)) {
+                    filterCustomer.add(user);
+                } else {
+//                    VendorCustomerRecyclerModel.Message.Customer newUser = new VendorCustomerRecyclerModel.Message.Customer();
+//                    newUser.setAssigned_name("No match found");
+//                    newUser.setPhone_number("");
+//                    filterCustomer.add(newUser);
+                }
+            }
+        }else{
+            Log.v("testtt","filter");
+            filterVendor.clear();
+            texts = texts.toLowerCase();
+            for (VendorCustomerRecyclerModel.Message.Vendor user : arrVendor) {
+                String userName = user.getFirm_name() != null ? user.getFirm_name().toLowerCase() : "";
+                String phoneNumber = user.getContact() != null ? user.getContact() : "";
+                if (userName.contains(texts) || phoneNumber.contains(texts)) {
+                    filterVendor.add(user);
+                } else {
+//                    VendorCustomerRecyclerModel.Message.Vendor newUser = new VendorCustomerRecyclerModel.Message.Vendor();
+//                    newUser.setAssigned_name("No match found");
+//                    newUser.setContact("");
+//                    filterVendor.add(newUser);
+                }
             }
         }
+
         notifyDataSetChanged();
     }
 

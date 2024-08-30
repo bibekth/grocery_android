@@ -20,4 +20,7 @@ public interface Transaction {
 
     @GET("/api/customercredit/{id}")
     Call<TransactionModel> getCustomerTransaction(@Header("Authorization") String token, @Path("id") String id);
+
+    @GET("/api/customercredit")
+    Call<TransactionModel> getAllTransactions(@Header("Authorization") String token);
 }

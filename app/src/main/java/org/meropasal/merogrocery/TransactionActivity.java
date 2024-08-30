@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -324,8 +325,8 @@ public class TransactionActivity extends AppCompatActivity {
 
                 Gson gson = new Gson();
                 String jsonString = gson.toJson(billList);
-                String finalJson = "{\"customer_id\":" + customerID + ",\"payment_type\":\"" + payment_type + "\",\"bill\":" + jsonString + "}";
-                Log.d("Final JSON", finalJson);
+//                String finalJson = "{\"customer_id\":" + customerID + ",\"payment_type\":\"" + payment_type + "\",\"bill\":" + jsonString + "}";
+//                Log.d("Final JSON", finalJson);
                 TransactionModel transactionModel = new TransactionModel(customerID, payment_type, billList);
 
                 Transaction transactionService = RetrofitService.getService(TransactionActivity.this).create(Transaction.class);
@@ -338,13 +339,16 @@ public class TransactionActivity extends AppCompatActivity {
                             if(Objects.equals(status, "Success")){
                                 Toast.makeText(TransactionActivity.this, "Transaction saved successfully", Toast.LENGTH_SHORT).show();
                                 billList.clear();
+                                Intent mainIntent = new Intent(TransactionActivity.this,MainActivity.class);
+                                startActivity(mainIntent);
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<TransactionModel> call, Throwable throwable) {
-                        billList.clear();
+//                        billList.clear();
+                        Log.e("error",throwable.getMessage());
                     }
                 });
             }

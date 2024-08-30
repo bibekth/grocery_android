@@ -70,7 +70,7 @@ public class SingleTransactionAdapter extends RecyclerView.Adapter<SingleTransac
 
     @Override
     public int getItemCount() {
-        return originalList.size();
+        return filteredList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -73,4 +73,5 @@
     <string name="add">Add</string>
     <string name="cash">Cash</string>
     <string name="credit">Credit</string>
+    <string name="credit_transaction">Credit Transaction</string>
 </resources>

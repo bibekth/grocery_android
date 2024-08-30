@@ -224,19 +224,54 @@ public class VendorCustomerRecyclerModel {
 
         public static class Vendor{
             private Integer id;
-            private String name, email, phone_number, address, pan_vat, status;
+            private String firm_name, name, contact, email, address, pan_vat, status, credit_amount, assigned_name;
 
             public Vendor() {
             }
 
-            public Vendor(Integer id, String name, String email, String phone_number, String address, String pan_vat, String status) {
+            public Vendor(Integer id, String firm_name, String name, String contact, String email, String address, String pan_vat, String status, String credit_amount, String assigned_name) {
                 this.id = id;
+                this.firm_name = firm_name;
                 this.name = name;
+                this.contact = contact;
                 this.email = email;
-                this.phone_number = phone_number;
                 this.address = address;
                 this.pan_vat = pan_vat;
                 this.status = status;
+                this.credit_amount = credit_amount;
+                this.assigned_name = assigned_name;
+            }
+
+            public String getCredit_amount() {
+                return credit_amount;
+            }
+
+            public void setCredit_amount(String credit_amount) {
+                this.credit_amount = credit_amount;
+            }
+
+            public String getAssigned_name() {
+                return assigned_name;
+            }
+
+            public void setAssigned_name(String assigned_name) {
+                this.assigned_name = assigned_name;
+            }
+
+            public String getFirm_name() {
+                return firm_name;
+            }
+
+            public void setFirm_name(String firm_name) {
+                this.firm_name = firm_name;
+            }
+
+            public String getContact() {
+                return contact;
+            }
+
+            public void setContact(String contact) {
+                this.contact = contact;
             }
 
             public Integer getId() {
@@ -261,14 +296,6 @@ public class VendorCustomerRecyclerModel {
 
             public void setEmail(String email) {
                 this.email = email;
-            }
-
-            public String getPhone_number() {
-                return phone_number;
-            }
-
-            public void setPhone_number(String phone_number) {
-                this.phone_number = phone_number;
             }
 
             public String getAddress() {
